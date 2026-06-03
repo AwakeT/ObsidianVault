@@ -292,17 +292,17 @@ $$\text{promote} \iff \begin{cases} \text{frequency} \geq 3 \\ \text{consistency
 
 #### TABLE 7: 静态 POI 摘要
 
-| 类别 | 数量 | 签名类型 | 关键属性 |
-|------|------|---------|---------|
-| potted plant | 5 | 4 landmark, 1 contextual | near_window |
-| laboratory | 4 | 4 landmark | room_number, department, access, entrance |
-| restroom | 2 | 2 none | type (men/women) |
-| emergency_exit | 2 | 2 landmark | type (entrance/exit) |
-| window | 2 | 2 landmark | opens, side (north/south) |
-| fire hydrant | 1 | 1 landmark | type (wall_mounted) |
-| radiator | 1 | 1 landmark | - |
-| chair | 1 | 1 landmark | seating=true, use=resting spot |
-| **总计** | **18** | **15 landmark, 2 none, 1 contextual** | - |
+| 类别             | 数量     | 签名类型                                  | 关键属性                                      |
+| -------------- | ------ | ------------------------------------- | ----------------------------------------- |
+| potted plant   | 5      | 4 landmark, 1 contextual              | near_window                               |
+| laboratory     | 4      | 4 landmark                            | room_number, department, access, entrance |
+| restroom       | 2      | 2 none                                | type (men/women)                          |
+| emergency_exit | 2      | 2 landmark                            | type (entrance/exit)                      |
+| window         | 2      | 2 landmark                            | opens, side (north/south)                 |
+| fire hydrant   | 1      | 1 landmark                            | type (wall_mounted)                       |
+| radiator       | 1      | 1 landmark                            | -                                         |
+| chair          | 1      | 1 landmark                            | seating=true, use=resting spot            |
+| **总计**         | **18** | **15 landmark, 2 none, 1 contextual** | -                                         |
 
 ### 实验设计: 三会话结构
 
@@ -475,7 +475,7 @@ $$\text{promote} \iff \begin{cases} \text{frequency} \geq 3 \\ \text{consistency
 - [[Hydra-Nav]]: 自适应 CoT 切换（单 VLM 内, RL 训练）
 - [[CausalNav]]: 因果语义图 + LLM-RAG 导航
 - [[EmergeNav]]: 零样本 VLN（纯 VLM 路线）
-- [[CROSS]]: 拓扑语义地图（表示学习路线）
+- [[论文笔记/CROSS]]: 拓扑语义地图（表示学习路线）
 
 ### 方法相关
 - [[Vision-Language Model]]: VLM 推理

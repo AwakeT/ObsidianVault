@@ -229,20 +229,20 @@ $$
 
 ### Table 1: 检索效率与精度对比
 
-| Method | Input Type | Retrieval Time (ms)↓ | Retrieval Accuracy (%)↑ |
-|--------|-----------|----------------------|-------------------------|
-| Naive RAG | Text | 152 | 0.08 |
-| Naive RAG | Text+Location | 155 | 0.03 |
-| Naive RAG | Text+Location+Sensor | 160 | 0.04 |
-| GraphRAG | Text | 420 | 0.09 |
-| GraphRAG | Text+Location | 425 | 0.04 |
-| GraphRAG | Text+Location+Sensor | 430 | 0.04 |
-| LightRAG | Text | 205 | 0.17 |
-| LightRAG | Text+Location | 210 | 0.09 |
-| LightRAG | Text+Location+Sensor | 215 | 0.10 |
-| **RAGNav** | Text | **185** | **0.46** |
-| **RAGNav** | Text+Location | 190 | 0.21 |
-| **RAGNav** | Text+Location+Sensor | 195 | **0.34** |
+| Method     | Input Type           | Retrieval Time (ms)↓ | Retrieval Accuracy (%)↑ |
+| ---------- | -------------------- | -------------------- | ----------------------- |
+| Naive RAG  | Text                 | 152                  | 0.08                    |
+| Naive RAG  | Text+Location        | 155                  | 0.03                    |
+| Naive RAG  | Text+Location+Sensor | 160                  | 0.04                    |
+| GraphRAG   | Text                 | 420                  | 0.09                    |
+| GraphRAG   | Text+Location        | 425                  | 0.04                    |
+| GraphRAG   | Text+Location+Sensor | 430                  | 0.04                    |
+| LightRAG   | Text                 | 205                  | 0.17                    |
+| LightRAG   | Text+Location        | 210                  | 0.09                    |
+| LightRAG   | Text+Location+Sensor | 215                  | 0.10                    |
+| **RAGNav** | Text                 | **185**              | **0.46**                |
+| **RAGNav** | Text+Location        | 190                  | 0.21                    |
+| **RAGNav** | Text+Location+Sensor | 195                  | **0.34**                |
 
 **说明**: RAGNav在保持与LightRAG接近检索速度的同时，精度大幅领先。引入位置信息反而降低所有方法精度，说明原始空间信息可能引入噪声。
 
