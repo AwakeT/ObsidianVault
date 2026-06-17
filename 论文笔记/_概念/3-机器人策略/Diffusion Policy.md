@@ -11,6 +11,8 @@ aliases: [扩散策略, Diffusion-based Policy]
 ## 代表工作
 - [[Embodied-FM-Edge ]]
 - [[DyGeoVLN ]]
+- [[Qwen-VLA]]: 流匹配动作专家的相关前置
 
 ## 相关概念
 - [[Vision-Language-Action]]
+- [[Flow Matching]]

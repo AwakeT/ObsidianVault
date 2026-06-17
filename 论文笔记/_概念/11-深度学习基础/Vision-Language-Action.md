@@ -11,6 +11,9 @@ aliases: [VLA, 视觉-语言-动作]
 ## 代表工作
 - [[PROSPECT ]]
 - [[Embodied-FM-Edge ]]
+- [[Qwen-VLA]]: 统一操作/导航/轨迹的通才 VLA
 
 ## 相关概念
 - [[Transformer]]
+- [[Flow Matching]]
+- [[Embodiment-Aware Prompt Conditioning]]

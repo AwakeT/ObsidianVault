@@ -1,6 +1,6 @@
 ---
 type: concept
-aliases: [Segment Anything Model]
+aliases: [Segment Anything Model, Segment Anything]
 ---
 
 # SAM
