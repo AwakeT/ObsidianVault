@@ -8,9 +8,9 @@ generated_by: dailypaper-skills
 
 - 当前目录：`assets`
 
-## 当前目录笔记
+## 子目录
 
-- 暂无内容
+- [[论文笔记/assets/_abotm0_preview/_abotm0_preview|_abotm0_preview]] · 0 篇笔记 · 0 个子目录
 
 ## 说明
 
