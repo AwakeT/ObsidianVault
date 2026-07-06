@@ -19,6 +19,7 @@ $$\text{SPL} = \frac{1}{N}\sum_{i=1}^{N} S_i \cdot \frac{l_i}{\max(p_i, l_i)}$$
 - [[MetaNav]]: 主要评估指标
 - [[VLN-NF]]: 扩展为 REV-SPL
 - [[OVAL]]: 主要评估指标
+- [[UcON]]: SR/SPL 评测
 
 ## 相关概念
 - [[Object Navigation]]

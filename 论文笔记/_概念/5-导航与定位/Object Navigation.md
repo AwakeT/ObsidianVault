@@ -21,6 +21,7 @@ N/A
 - [[VLFM]]: 视觉语言 frontier maps
 - [[GOAT]]: GO to Any Thing
 - [[SemEXP]]: 目标导向语义探索
+- [[UcON]]: 融入用户习惯的个性化物体导航基准
 
 ## 相关概念
 - [[Frontier Exploration]]

@@ -20,6 +20,7 @@ $$\mathcal{F}^t = \{v \in \mathcal{V}_{\text{free}}^t \mid \exists v' \in \mathc
 - [[MetaNav]]: 统一效用函数选择 frontier
 - [[OVAL]]: 概率地图多因素 frontier 评分
 - [[VLFM]]: 视觉语言 frontier maps
+- [[RAVEN]]: Phase I 探索
 
 ## 相关概念
 - [[Semantic Map]]

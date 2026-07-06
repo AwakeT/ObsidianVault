@@ -10,6 +10,8 @@ aliases: [RAG, 检索增强生成]
 
 ## 代表工作
 - [[RAGNav]]
+- [[RAVEN]]: 用 RAG 检索视觉记忆
+- [[UcON]]: HRM 检索用户习惯
 
 ## 相关概念
 - [[LLM]]

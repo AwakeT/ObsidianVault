@@ -17,6 +17,8 @@ aliases: [SR, 成功率]
 ## 代表工作
 - [[EvoMemNav]]: 在 GOAT-Bench / HM3D 上报告 SR/SPL
 - [[GOAT-Bench]]: 多模态终身导航的 SR/SPL 评估协议
+- [[RAVEN]]: 真机导航成功率评测
+- [[UcON]]: 物体导航成功率评测
 
 ## 相关概念
 - [[SPL]]

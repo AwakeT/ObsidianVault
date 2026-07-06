@@ -18,6 +18,7 @@ N/A
 ## 代表工作
 - [[MetaNav]]: GPT-4o 作为 VLM
 - [[FineCog-Nav]]: Qwen2.5-VL-32B
+- [[RAVEN]]: VLM agent 迭代检索
 
 ## 相关概念
 - [[LLM]]

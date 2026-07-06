@@ -19,6 +19,7 @@ N/A
 ## 代表工作
 - [[VLFM]]: 用 CLIP 为 frontier 打分
 - [[DeCoNav]]: 参考方法
+- [[RAVEN]]: 候选多模态编码器之一
 
 ## 相关概念
 - [[EVA-CLIP]]

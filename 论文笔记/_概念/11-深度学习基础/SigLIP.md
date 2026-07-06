@@ -10,6 +10,7 @@ aliases: [SigLIP, Sigmoid Loss for Language-Image Pre-training]
 
 ## 代表工作
 - [[PROSPECT ]]
+- [[RAVEN]]: 候选多模态编码器之一
 
 ## 相关概念
 - [[Transformer]]
