@@ -2,11 +2,11 @@
 tags: [MOC, auto-generated]
 generated_by: dailypaper-skills
 ---
-# 论文目录页：LocateAnything
+# 论文目录页：_m3e_preview
 
 用于浏览论文笔记、分类目录和子主题入口。
 
-- 当前目录：`开放词汇检测与视觉定位/LocateAnything`
+- 当前目录：`assets/_m3e_preview`
 
 ## 当前目录笔记
 
