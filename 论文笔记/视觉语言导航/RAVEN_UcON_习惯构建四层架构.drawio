@@ -1,0 +1,59 @@
+<mxGraphModel dx="1044" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1000" math="0" shadow="0"><root><mxCell id="0"/><mxCell id="1" parent="0"/>
+
+<mxCell id="title" value="RAVEN × UcON · 习惯构建架构（感知·存储 → 习惯获取[粗→精五步] → 动态维护 → 检索利用 闭环）　v0.2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#333333;fontStyle=1;fontSize=15;" parent="1" vertex="1"><mxGeometry x="40" y="10" width="1420" height="34" as="geometry"/></mxCell>
+
+<!-- ===== Band 1: 观测记忆层（含 ① 存储） ===== -->
+<mxCell id="l1" value="观测记忆层 · Observation Memory　（改造 RAVEN：存整帧向量 + 原图，延迟检测）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#6c8ebf;fontColor=#ffffff;fontStyle=1;fontSize=13;" parent="1" vertex="1"><mxGeometry x="40" y="58" width="1160" height="30" as="geometry"/></mxCell>
+<mxCell id="l1a" value="采集 egocentric RGB 帧&lt;br&gt;（探索 / 日常服务过程中）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1"><mxGeometry x="60" y="98" width="340" height="64" as="geometry"/></mxCell>
+<mxCell id="l1b" value="多模态编码器 → 整帧视觉嵌入 z&lt;br&gt;（场景级语义，不预先抽物体）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1"><mxGeometry x="440" y="98" width="340" height="64" as="geometry"/></mxCell>
+<mxCell id="l1c" value="①  存储：{ z 整帧向量 · o 原图 · p 位姿 · t 时间 } 入向量库（FAISS / Milvus）&lt;br&gt;&lt;b&gt;关键改动：只存整帧向量 + 原图，检测推迟到精判步&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" parent="1" vertex="1"><mxGeometry x="820" y="98" width="340" height="64" as="geometry"/></mxCell>
+
+<!-- ===== Band 2: 习惯获取层（②粗筛 ③精判 ④聚合 ⑤归纳，粗→精） ===== -->
+<mxCell id="l2" value="习惯获取层 · Habit Acquisition　（★ 新增 — 核心研究点，UcON 缺的 acquisition；粗筛→精判→聚合→归纳，coarse-to-fine）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d79b00;strokeColor=#b46504;fontColor=#ffffff;fontStyle=1;fontSize=13;" parent="1" vertex="1"><mxGeometry x="40" y="192" width="1160" height="30" as="geometry"/></mxCell>
+<mxCell id="l2a" value="②  粗筛（场景级）&lt;br&gt;z 场景级检索 → 圈出候选帧&lt;br&gt;（先缩到少量相关帧）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;strokeWidth=2;" parent="1" vertex="1"><mxGeometry x="60" y="232" width="265" height="78" as="geometry"/></mxCell>
+<mxCell id="l2b" value="③  精判（实例级）&lt;br&gt;候选帧原图 → 检测器 →&lt;br&gt;哪些帧含 o、bbox、共现物体" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;strokeWidth=2;" parent="1" vertex="1"><mxGeometry x="345" y="232" width="265" height="78" as="geometry"/></mxCell>
+<mxCell id="l2c" value="④  聚合（跨 episode）&lt;br&gt;统计 o 的 (relation, landmark, time)&lt;br&gt;→ 算置信度 conf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;strokeWidth=2;" parent="1" vertex="1"><mxGeometry x="630" y="232" width="265" height="78" as="geometry"/></mxCell>
+<mxCell id="l2d" value="⑤  归纳&lt;br&gt;代表帧送 VLM →&lt;br&gt;结构化习惯元组 (o, relation, landmark, time, conf)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1;strokeWidth=2;" parent="1" vertex="1"><mxGeometry x="915" y="232" width="265" height="78" as="geometry"/></mxCell>
+
+<!-- ===== Band 3: 动态维护层（保留） ===== -->
+<mxCell id="l3" value="动态维护层 · Dynamic Maintenance　（★ 新增 — 补两篇共同的&quot;静态记忆&quot;局限）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d79b00;strokeColor=#b46504;fontColor=#ffffff;fontStyle=1;fontSize=13;" parent="1" vertex="1"><mxGeometry x="40" y="336" width="1160" height="30" as="geometry"/></mxCell>
+<mxCell id="l3a" value="新证据 → 强化&lt;br&gt;（提升 conf）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;strokeWidth=2;" parent="1" vertex="1"><mxGeometry x="60" y="376" width="360" height="56" as="geometry"/></mxCell>
+<mxCell id="l3b" value="久未复现 → 衰减&lt;br&gt;（降低 conf）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;strokeWidth=2;" parent="1" vertex="1"><mxGeometry x="440" y="376" width="360" height="56" as="geometry"/></mxCell>
+<mxCell id="l3c" value="位置变化 → 触发剪枝 / 改写&lt;br&gt;（应对物体挪位的高动态场景）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;strokeWidth=2;" parent="1" vertex="1"><mxGeometry x="820" y="376" width="360" height="56" as="geometry"/></mxCell>
+
+<!-- ===== Band 4: 检索利用层（保留） ===== -->
+<mxCell id="l4" value="检索利用层 · Retrieval &amp; Use　（升级自 UcON HRM）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#82b366;fontColor=#ffffff;fontStyle=1;fontSize=13;" parent="1" vertex="1"><mxGeometry x="40" y="458" width="1160" height="30" as="geometry"/></mxCell>
+<mxCell id="l4a" value="目标 o → 多工具检索&lt;br&gt;text / position / time（升级单一 BGE-M3）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" parent="1" vertex="1"><mxGeometry x="60" y="498" width="360" height="64" as="geometry"/></mxCell>
+<mxCell id="l4b" value="每条检索附相似度分数&lt;br&gt;→ LLM 判证据充分 / 部分可观测下迭代搜索" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" parent="1" vertex="1"><mxGeometry x="440" y="498" width="360" height="64" as="geometry"/></mxCell>
+<mxCell id="l4c" value="组装 prompt → 基础大模型 plan → 低层动作&lt;br&gt;（MoveAhead / Rotate / Open / Done）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" parent="1" vertex="1"><mxGeometry x="820" y="498" width="360" height="64" as="geometry"/></mxCell>
+
+<!-- ===== Legend & TODO ===== -->
+<mxCell id="lg" value="图例 &amp; 持续更新区" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8e8e8;strokeColor=#666666;fontStyle=1;fontSize=13;" parent="1" vertex="1"><mxGeometry x="1240" y="58" width="220" height="30" as="geometry"/></mxCell>
+<mxCell id="lgb" value="■ 蓝：改造自 RAVEN 机制" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=8;" parent="1" vertex="1"><mxGeometry x="1240" y="98" width="220" height="34" as="geometry"/></mxCell>
+<mxCell id="lgo" value="■ 橙 ★：本文新增（核心研究点）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;spacingLeft=8;strokeWidth=2;" parent="1" vertex="1"><mxGeometry x="1240" y="140" width="220" height="34" as="geometry"/></mxCell>
+<mxCell id="lgg" value="■ 绿：升级自 UcON HRM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;" parent="1" vertex="1"><mxGeometry x="1240" y="182" width="220" height="34" as="geometry"/></mxCell>
+<mxCell id="todo" value="习惯获取五步（粗→精）&lt;br&gt;① 存储  ② 粗筛  ③ 精判  ④ 聚合  ⑤ 归纳&lt;br&gt;&lt;br&gt;持续更新 TODO&lt;br&gt;- 粗筛 top-k / 阈值选取&lt;br&gt;- 精判检测器选型（开放词表 open-vocab）&lt;br&gt;- 代表帧选取策略（送 VLM 前）&lt;br&gt;- 聚合算法 &amp; conf 计算&lt;br&gt;- 动态维护的强化/衰减函数&lt;br&gt;- acquisition 评测指标 / 新基准&lt;br&gt;- 仿真改造：episode 间物体位置需一致&lt;br&gt;- 时间习惯 time-slot 粒度" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;" parent="1" vertex="1"><mxGeometry x="1240" y="226" width="220" height="340" as="geometry"/></mxCell>
+
+<!-- ===== 底部说明 ===== -->
+<mxCell id="foot" value="一句话：RAVEN 给&quot;怎么把经验变成可检索记忆&quot;（存整帧向量+原图），UcON 给&quot;怎么用习惯找物&quot;（检索利用）；本文新增的习惯获取用&lt;b&gt;粗到精五步&lt;/b&gt;——先 z 场景粗筛圈候选帧，再对候选原图跑检测器精判，跨 episode 聚合成规律，代表帧送 VLM 归纳成结构化习惯元组；配合动态维护构成 感知→获取→维护→利用 闭环。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;align=left;verticalAlign=middle;spacingLeft=10;" parent="1" vertex="1"><mxGeometry x="40" y="590" width="1160" height="60" as="geometry"/></mxCell>
+
+<!-- ===== Edges: 带内 ===== -->
+<mxCell id="e_l1ab" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" parent="1" source="l1a" target="l1b" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="e_l1bc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" parent="1" source="l1b" target="l1c" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="e_l2ab" value="粗→精" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;fontSize=11;" parent="1" source="l2a" target="l2b" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="e_l2bc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" parent="1" source="l2b" target="l2c" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="e_l2cd" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" parent="1" source="l2c" target="l2d" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="e_l3ab" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" parent="1" source="l3a" target="l3b" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="e_l3bc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;" parent="1" source="l3b" target="l3c" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="e_l4ab" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" parent="1" source="l4a" target="l4b" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="e_l4bc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" parent="1" source="l4b" target="l4c" edge="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+<!-- ===== Edges: 跨带 ===== -->
+<mxCell id="e_12" value="从向量库取整帧向量 z + 原图" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="l1c" target="l2a" edge="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="990" y="185"/><mxPoint x="192" y="185"/></Array></mxGeometry></mxCell>
+<mxCell id="e_23" value="习惯元组进入维护" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="l2d" target="l3b" edge="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1047" y="343"/><mxPoint x="620" y="343"/></Array></mxGeometry></mxCell>
+<mxCell id="e_34" value="维护后的习惯供检索" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="l3b" target="l4b" edge="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="620" y="465"/></Array></mxGeometry></mxCell>
+
+<!-- ===== 闭环 feedback ===== -->
+<mxCell id="e_loop" value="闭环：执行中产生新观测 → 回流记忆层" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;strokeColor=#9673a6;strokeWidth=2;fontSize=11;fontColor=#9673a6;fontStyle=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="l4a" target="l1a" edge="1"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="24" y="530"/><mxPoint x="24" y="130"/></Array></mxGeometry></mxCell>
+
+</root></mxGraphModel>
