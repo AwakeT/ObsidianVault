@@ -2,7 +2,7 @@
 
 > 版本：v0.1（调研 + 选型结论）
 > 日期：2026-07-02
-> 服务对象：DINO-GeoSemMap v-next.2「轻量流式几何专家」（[[21_DINO-GeoSemMap_v-next_总架构愿景]]、`DINO-GeoSemMap_v-next.2_端侧主干专家架构.drawio`）
+> 服务对象：DINO-GeoSemMap v-next.2「轻量流式几何专家」（[[21_DINO-GeoSemMap_v-next_总架构愿景]]、[端侧主干专家架构](../14_几何专家蒸馏/DINO-GeoSemMap_v-next.2_端侧主干专家架构.drawio)）
 > 结论先行：**P0a 现成在线基线 = CUT3R（+ 训练-free 的 TTT3R 增强）**；漂移不行再换 Anchor3R / RayMap3R。
 
 ---
@@ -99,4 +99,4 @@ VGGT（CVPR 2025 Best Paper）把 SfM/BA 换成一个前馈 Transformer，一次
 ## 关联
 
 - [[21_DINO-GeoSemMap_v-next_总架构愿景]]
-- `../09_dino_geosemmap_architecture/DINO-GeoSemMap_v-next.2_端侧主干专家架构.drawio`
+- [DINO-GeoSemMap v-next.2 端侧主干专家架构](../14_几何专家蒸馏/DINO-GeoSemMap_v-next.2_端侧主干专家架构.drawio)

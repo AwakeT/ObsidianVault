@@ -131,5 +131,5 @@
 ## 关联
 
 - [[01_VGGT谱系与在线位姿推理选型]]
-- [[00_索引]]
-- `../09_dino_geosemmap_architecture/DINO-GeoSemMap_v-next.2_端侧主干专家架构.drawio`
+- [[研究资料/12_3D几何与位姿推理/00_索引]]
+- [DINO-GeoSemMap v-next.2 端侧主干专家架构](../14_几何专家蒸馏/DINO-GeoSemMap_v-next.2_端侧主干专家架构.drawio)

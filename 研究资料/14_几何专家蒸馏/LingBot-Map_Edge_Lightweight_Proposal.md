@@ -1,5 +1,8 @@
 # LingBot-Map 位姿+深度能力端侧轻量化方案
 
+> [!warning] 历史方案，非当前实施真源
+> 本文保留早期“直接位姿头 + 深度、Point Head 可删除”的探索记录，不再代表 2026-08-10 后的系统边界。当前方案必须保留 `local_points`、`world_points` 与 point confidence，并由统一 confidence-weighted SE(3) SVD/Procrustes 派生 camera pose；不接入 LOGOPlanner/NavDP。请以 [[01_教师模型选型与目标域审计]]、[[02_学生模型选型与端侧架构]]、[[03_蒸馏方法与训练验证方案]] 为准。
+
 > 基于 LingBot-Map (arXiv:2604.14141) 的位姿估计与深度预测能力，设计端侧部署方案，与 Qwen3-VL-4B VLM 共存于手机级 NPU。
 
 文档版本：v0.2

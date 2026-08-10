@@ -543,6 +543,7 @@ L3不作为事实源，负责把L1+L2转化为下游消费者（任务执行、L
 | **CapNav** | 评测基准 | N/A | N/A | N/A | N/A | N/A | N/A |
 | **ABot-N0** | 统一VLA基础模型 | 认知预热+SFT+SAFE-GRPO | 连续轨迹5路点(x,y,θ) | 4层拓扑记忆 | VLA 2Hz+控制器10Hz | Qwen3-4B | Unitree Go2, Jetson Orin NX |
 | **INHerit-SG** | **层级场景图+RAG检索** | **零样本（基础模型组合）** | **检索结果（非导航动作）** | **F-R-A-O四层场景图** | **事件触发式异步更新** | **SAM3+DINOv3+LLM+VLM** | **真实环境验证** |
+| **[[H2-EMV_论文分析与双记忆归类|H²-EMV]]（外部记忆专题）** | **层级情景记忆+可学习遗忘** | **用户反馈更新自然语言规则（非参数训练）** | **问答/解释（非导航动作）** | **scene→event→goal→higher-level summary History Tree** | **异步建树+夜间/空闲遗忘+按需EMV** | **LLM流水线** | **ARMAR-7 20.5小时真实记录** |
 | **Kinbot** | Teacher蒸馏Student | 多阶段训练+蒸馏 | 结构化认知JSON | **L1-L2-L3-L4四层记忆**（L1语义骨架+L2事件流+L3按需服务） | 低频+高频双层 | 27B→4B | 量产目标 |
 
 ### 10.2 Kinbot可参考性评分
@@ -558,6 +559,7 @@ L3不作为事实源，负责把L1+L2转化为下游消费者（任务执行、L
 | **CapNav** | ★★★☆☆ | ★☆☆☆☆ | ★☆☆☆☆ | ★★★★★ | ★★★☆☆ |
 | **ABot-N0** | ★★★★☆ | ★★★★★ | ★★★★☆ | ★★★★★ | ★★★★★ |
 | **INHerit-SG** | **★★★★☆** | **★☆☆☆☆** | **★★★★★** | **★★★☆☆** | **★★★★☆** |
+| **H²-EMV（外部记忆专题）** | **★★★★☆** | **★★☆☆☆** | **★★★★★** | **★★★★☆** | **★★★★☆** |
 
 ### 10.3 按Kinbot阶段的参考映射
 
@@ -571,7 +573,7 @@ L3不作为事实源，负责把L1+L2转化为下游消费者（任务执行、L
 | **P1-medium 深度/几何** | CapNav | 维度忽视警示+评测方法论 |
 | **P1-low RL优化** | NavGRPO, VLingNav, ABot-N0 | GRPO算法+奖励设计；自适应CoT激活策略；ABot-N0 SAFE-GRPO复合奖励 |
 | **双频/事件驱动架构** | SFCo-Nav, EmergeNav, INHerit-SG, ABot-N0 | 慢-快动态切换置信度机制；高频-低频FOV分离；INHerit-SG事件触发式异步更新；ABot-N0 VLA 2Hz+控制器10Hz |
-| **记忆/地图设计** | INHerit-SG, MetaNav, ABot-N0 | Kinbot L1层级（Room→Zone→AnchorObj/MovableObj）与INHerit-SG F-R-A-O**已对齐**；L2事件层+L2→L1沉淀机制是Kinbot独有优势；INHerit-SG的RAG检索管线可增强L3服务层；MetaNav情节缓冲≈L2事件层设计；ABot-N0四层拓扑记忆面向室外，Kinbot面向室内 |
+| **记忆/地图设计** | INHerit-SG, MetaNav, ABot-N0, H²-EMV | Kinbot L1层级（Room→Zone→AnchorObj/MovableObj）与INHerit-SG F-R-A-O**已对齐**；H²-EMV可补齐L2事件层的可学习保留、分层摘要和用户反馈闭环；INHerit-SG的RAG检索管线可增强L3服务层；MetaNav情节缓冲≈L2事件层设计；ABot-N0四层拓扑记忆面向室外，Kinbot面向室内 |
 | **评测体系** | CapNav | 能力条件化评测框架+智能体档案 |
 | **训练数据建设** | ABot-N0, VLingNav, NavGRPO | ABot-N0 Data Engine（16.9M轨迹数据飞轮）；Nav-AdaCoT数据集构建；Hard Case Replay |
 | **边缘部署验证** | ABot-N0 | Qwen3-4B在Jetson Orin NX上2Hz推理仅降3%性能 |
@@ -586,13 +588,13 @@ L3不作为事实源，负责把L1+L2转化为下游消费者（任务执行、L
 
 1. **双频/双速/事件驱动架构是主流趋势**：SFCo-Nav（慢-快）、EmergeNav（高频-低频FOV）、MetaNav（固定间隔重规划）、ABot-N0（VLA 2Hz+控制器10Hz）、INHerit-SG（事件触发式异步更新）都独立地采用了类似的"不是每步都做完整推理"设计，且CapNav的thinking模式实验（+6.87%准确度但8×延迟）从评测角度证实了这一点。
 
-2. **显式层级化记忆优于参数化记忆**：EmergeNav（STM+LTM）、MetaNav（情节缓冲）、ABot-N0（4层拓扑记忆）、INHerit-SG（Floor-Room-Area-Object四层场景图）都选择了显式层级化记忆。**Kinbot的L1-L2-L3-L4四层记忆系统在设计完成度上已处于领先水平**——L1语义骨架（Room→Zone→AnchorObj/MovableObj）与INHerit-SG的F-R-A-O层级高度对齐，L2动态事件层+L2→L1沉淀机制+遗忘衰减是所有9篇论文中唯一具备的动静分离+显式遗忘设计，L3按需服务层（不持久化，查询时推导）与INHerit-SG的"地图作为知识库"理念一致。VLingNav虽然用参数化VLingMem取得了好效果，但其7B模型规模和128×A100训练成本不适合Kinbot场景。
+2. **显式层级化记忆优于参数化记忆**：EmergeNav（STM+LTM）、MetaNav（情节缓冲）、ABot-N0（4层拓扑记忆）、INHerit-SG（Floor-Room-Area-Object四层场景图）都选择了显式层级化记忆。**Kinbot的L1-L2-L3-L4四层记忆系统在9篇核心VLN论文对比中仍处于领先水平**——L1语义骨架（Room→Zone→AnchorObj/MovableObj）与INHerit-SG的F-R-A-O层级高度对齐，L2动态事件层+L2→L1沉淀机制+遗忘衰减是这9篇论文中唯一具备的动静分离+显式遗忘设计，L3按需服务层（不持久化，查询时推导）与INHerit-SG的"地图作为知识库"理念一致。作为非VLN的外部记忆专题对照，H²-EMV进一步证明：层级化外部情景记忆可以把遗忘从固定时间窗升级为由用户反馈学习的个性化保留策略。VLingNav虽然用参数化VLingMem取得了好效果，但其7B模型规模和128×A100训练成本不适合Kinbot场景。
 
 3. **结构化输出是可行路线**：EmergeNav的PST分离输出、SFCo-Nav的子目标链、MetaNav的前沿评分+反思规则，都是不同形式的"结构化认知判断"，与Kinbot的JSON输出理念一致。ABot-N0的推理头+动作头双头分离进一步证明了"推理与决策解耦"的必要性。
 
 7. **地图作为知识库而非几何容器**：INHerit-SG将场景图重新定义为"RAG-ready知识库"，用自然语言描述作为语义锚点。**Kinbot的L1-L3设计已完整体现这一范式**——L1存储语义描述（`position_relative`自然语言）+空间关系（`neighbors`/`anchor_objects`），L3按需组装推导关系（`habitually_found_in`/`not_expected_in`/`used_for`）供LLM消费，不存储原始感知数据。
 
-8. **动静分离+遗忘衰减是记忆系统的关键能力**（新增）：9篇论文中均未设计显式的遗忘机制——INHerit-SG、ABot-N0的拓扑记忆只增不减，MetaNav的情节缓冲有时间窗口但无衰减。**Kinbot的L2→L1沉淀机制（evidence_count双向：超阈值加入/归零删除）+L2时间窗口保留（近7天详细/更早压缩）是所有方案中最完善的记忆生命周期管理**。这对真实家庭场景至关重要——物品会被移走、房间功能会变化。
+8. **动静分离+选择性遗忘是记忆系统的关键能力**（更新）：9篇核心VLN论文中均未设计可学习的显式遗忘——INHerit-SG、ABot-N0的拓扑记忆只增不减，MetaNav的情节缓冲有时间窗口但无衰减。Kinbot已具备启发式生命周期：L2→L1沉淀（`evidence_count`双向加入/删除）+L2固定时间窗（近7天详细/更早压缩）；H²-EMV则提供了更高一级的外部证据：以层级寿命、LLM相关性估计和用户反馈学习自然语言保留规则，在保持问答能力的同时缩减记忆与查询开销。因此，Kinbot不应再把“固定衰减”视为终点，而应将其升级为**可审计、可撤销、用户自适应的 retention governor**。
 
 4. **Token预算控制有实验支持**：CapNav证明了64帧视觉预算的收益递减，SFCo-Nav证明了50%+Token减少不影响性能，MetaNav证明了20.7%VLM查询减少不影响成功率。
 
@@ -613,6 +615,7 @@ L3不作为事实源，负责把L1+L2转化为下游消费者（任务执行、L
 7. **EmergeNav的GIPE感知提取**（→ P0 Token优化）：在Student输入组织中引入目标条件化过滤。
 8. **CapNav的能力条件化评测框架**（→ 全阶段评测体系）：定义Kinbot专属智能体档案，建立能力条件化评测基准。
 9. **VLingNav的自适应CoT**（→ Teacher推理优化）：在Teacher中引入双过程理论的推理触发条件。
+10. **H²-EMV的学习型保留策略**（→ L2记忆生命周期治理）：在固定7天窗口之上增加分层寿命、`retention_relevance`、规则来源、遗忘审计和可恢复占位；用户纠错用于增/改/删保留规则，而非直接污染L1事实或M2习惯。
 
 ### 11.3 不建议采纳的设计
 
