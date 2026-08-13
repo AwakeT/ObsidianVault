@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1860" viewBox="0 0 1500 1860">
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill:#252a30; }
+      .title { font-size:34px; font-weight:600; }
+      .sub { font-size:17px; fill:#737b84; }
+      .label { font-size:18px; font-weight:500; }
+      .body { font-size:15px; fill:#4f5862; }
+      .note { font-size:14px; fill:#646d76; }
+      .warn { fill:#a23b2b; font-weight:600; }
+      .box { fill:#ffffff; stroke:#d7dce1; stroke-width:1.5; }
+      .diamond { fill:#ffffff; stroke:#d7dce1; stroke-width:1.5; }
+      .line { fill:none; stroke:#7e8791; stroke-width:1.7; marker-end:url(#arrow); }
+      .soft { fill:none; stroke:#aeb5bc; stroke-width:1.5; stroke-dasharray:4 5; marker-end:url(#arrowSoft); }
+      .bypass { fill:none; stroke:#8d959e; stroke-width:1.5; stroke-dasharray:3 5; marker-end:url(#arrow); }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#7e8791"/>
+    </marker>
+    <marker id="arrowSoft" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#aeb5bc"/>
+    </marker>
+  </defs>
+
+  <rect width="1500" height="1860" fill="#ffffff"/>
+  <text x="750" y="52" text-anchor="middle" class="title">GSM 真机部署误差传递流程</text>
+  <text x="750" y="84" text-anchor="middle" class="sub">关系推理隔离部分历史误差；深度与 DR 仍通过坐标和局部导航旁路传播</text>
+
+  <!-- 输入 -->
+  <rect class="box" x="95" y="130" width="310" height="92"/>
+  <text x="250" y="165" text-anchor="middle" class="label">RGB / 人物检测</text>
+  <text x="250" y="194" text-anchor="middle" class="body">类别、BBox、漏检、误检</text>
+
+  <rect class="box" x="595" y="130" width="310" height="92"/>
+  <text x="750" y="165" text-anchor="middle" class="label">双目深度</text>
+  <text x="750" y="194" text-anchor="middle" class="body">尺度、空洞、视差、时延</text>
+
+  <rect class="box" x="1095" y="130" width="310" height="92"/>
+  <text x="1250" y="165" text-anchor="middle" class="label">IMU / ODOM → DR</text>
+  <text x="1250" y="194" text-anchor="middle" class="body">平移、航向、增量漂移</text>
+
+  <!-- GSM 构建 -->
+  <rect class="box" x="555" y="300" width="390" height="105"/>
+  <text x="750" y="339" text-anchor="middle" class="label">GSM 地图构建</text>
+  <text x="750" y="370" text-anchor="middle" class="body">检测结果 + 检测时深度 + DR 位姿</text>
+  <text x="750" y="394" text-anchor="middle" class="note warn">D / A / C：度量误差仍会写入 GSM</text>
+
+  <path class="line" d="M250 222 V265 H650 V300"/>
+  <path class="line" d="M750 222 V300"/>
+  <path class="line" d="M1250 222 V265 H850 V300"/>
+
+  <!-- GSM 双输出 -->
+  <rect class="box" x="175" y="500" width="430" height="112"/>
+  <text x="390" y="538" text-anchor="middle" class="label">结构化语义与相对关系</text>
+  <text x="390" y="568" text-anchor="middle" class="body">room_id、拓扑、邻接、目标类别、相对方位</text>
+  <text x="390" y="594" text-anchor="middle" class="note">高层回答“去哪里 / 搜什么”</text>
+
+  <rect class="box" x="895" y="487" width="430" height="138"/>
+  <text x="1110" y="522" text-anchor="middle" class="label">检测坐标接口</text>
+  <text x="1110" y="552" text-anchor="middle" class="body">bbox_px：DR、深度断开</text>
+  <text x="1110" y="578" text-anchor="middle" class="body">xyz_base：DR 断开，深度保留</text>
+  <text x="1110" y="604" text-anchor="middle" class="body">xyz_map：DR、深度均未断开</text>
+
+  <path class="line" d="M690 405 V450 H390 V500"/>
+  <path class="line" d="M810 405 V450 H1110 V487"/>
+
+  <!-- 关系符号化断点 -->
+  <rect class="box" x="195" y="690" width="390" height="116"/>
+  <text x="390" y="726" text-anchor="middle" class="label">误差断点①：关系符号化</text>
+  <text x="390" y="756" text-anchor="middle" class="body">小幅度量误差未跨越关系边界</text>
+  <text x="390" y="783" text-anchor="middle" class="note"><tspan class="warn">M：被屏蔽</tspan>　边界附近转为 <tspan class="warn">T：状态翻转</tspan></text>
+  <path class="line" d="M390 612 V690"/>
+
+  <!-- 高层 -->
+  <rect class="box" x="210" y="875" width="360" height="92"/>
+  <text x="390" y="910" text-anchor="middle" class="label">RoboBrain 高层推理</text>
+  <text x="390" y="939" text-anchor="middle" class="body">目标房间、搜索方向、局部导航意图</text>
+  <path class="line" d="M390 806 V875"/>
+
+  <!-- room decision -->
+  <polygon class="diamond" points="390,1020 520,1110 390,1200 260,1110"/>
+  <text x="390" y="1098" text-anchor="middle" class="label">当前 room_id</text>
+  <text x="390" y="1127" text-anchor="middle" class="body">是目标房间？</text>
+  <path class="line" d="M390 967 V1020"/>
+
+  <!-- detection decision -->
+  <polygon class="diamond" points="850,1020 980,1110 850,1200 720,1110"/>
+  <text x="850" y="1098" text-anchor="middle" class="label">seen_2d 且</text>
+  <text x="850" y="1127" text-anchor="middle" class="body">localized_3d？</text>
+  <path class="line" d="M520 1110 H720"/>
+  <text x="615" y="1093" text-anchor="middle" class="note">是：进入目标检测与定位</text>
+  <path class="line" d="M1110 625 V860 H850 V1020"/>
+  <text x="986" y="845" text-anchor="middle" class="note">提供检测状态与坐标</text>
+
+  <!-- room no -->
+  <rect class="box" x="75" y="1275" width="315" height="88"/>
+  <text x="232" y="1310" text-anchor="middle" class="label">VLN 房间导航</text>
+  <text x="232" y="1339" text-anchor="middle" class="body">房间引导与方向推理</text>
+  <path class="line" d="M260 1110 H150 V1275"/>
+  <text x="168" y="1092" class="note">否</text>
+
+  <!-- detection no -->
+  <rect class="box" x="1090" y="1275" width="330" height="88"/>
+  <text x="1255" y="1310" text-anchor="middle" class="label">头部 / 机身旋转搜索</text>
+  <text x="1255" y="1339" text-anchor="middle" class="body">漏检、无效深度触发重新观察</text>
+  <path class="line" d="M980 1110 H1255 V1275"/>
+  <text x="1103" y="1092" class="note">否</text>
+  <path class="soft" d="M1420 1319 H1460 V350 H945"/>
+  <text x="1450" y="800" text-anchor="end" class="note">FB + C：新视角重新进入检测与 GSM</text>
+
+  <!-- reset -->
+  <rect class="box" x="505" y="1300" width="430" height="118"/>
+  <text x="720" y="1335" text-anchor="middle" class="label">误差断点②：当前帧短程目标重置</text>
+  <text x="720" y="1366" text-anchor="middle" class="body">当前机体系目标 + 时间戳 + 短 TTL</text>
+  <text x="720" y="1395" text-anchor="middle" class="note"><tspan class="warn">M + FB：</tspan>丢弃旧目标，缩短历史误差作用时域</text>
+  <path class="line" d="M850 1200 V1250 H720 V1300"/>
+  <text x="867" y="1230" class="note">是：坐标误差仍可能传递</text>
+  <path class="line" d="M232 1363 V1450 H505"/>
+
+  <!-- local nav -->
+  <rect class="box" x="505" y="1490" width="430" height="100"/>
+  <text x="720" y="1527" text-anchor="middle" class="label">局部导航、避障与停止</text>
+  <text x="720" y="1557" text-anchor="middle" class="body">当前深度、DR、局部规划、控制执行</text>
+  <text x="720" y="1581" text-anchor="middle" class="note warn">DR / 深度误差在此处仍未中断</text>
+  <path class="line" d="M720 1418 V1490"/>
+
+  <!-- bypass -->
+  <path class="bypass" d="M750 222 V270 H1415 V1460 H900 V1490"/>
+  <text x="1375" y="1435" text-anchor="end" class="note warn">深度旁路：D / A / T</text>
+  <path class="bypass" d="M1250 222 V250 H1440 V1435 H865 V1490"/>
+  <text x="1110" y="1410" text-anchor="end" class="note warn">DR 旁路：D / C / FB</text>
+
+  <!-- terminal check -->
+  <rect class="box" x="505" y="1660" width="430" height="100"/>
+  <text x="720" y="1697" text-anchor="middle" class="label">末端视觉重检测与相对距离复核</text>
+  <text x="720" y="1727" text-anchor="middle" class="body">区分“导航栈到点”与“任务真正完成”</text>
+  <path class="line" d="M720 1590 V1660"/>
+
+  <rect class="box" x="570" y="1800" width="300" height="44"/>
+  <text x="720" y="1828" text-anchor="middle" class="label">任务完成 / 重新规划</text>
+  <path class="line" d="M720 1760 V1800"/>
+</svg>

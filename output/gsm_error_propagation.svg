@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1720" viewBox="0 0 1800 1720">
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; fill:#1f2937; }
+      .title { font-size:42px; font-weight:700; }
+      .subtitle { font-size:20px; fill:#64748b; }
+      .group-title { font-size:25px; font-weight:700; }
+      .node-title { font-size:22px; font-weight:700; }
+      .node-body { font-size:17px; fill:#475569; }
+      .edge-label { font-size:16px; font-weight:600; }
+      .small { font-size:15px; fill:#64748b; }
+      .node { stroke:#64748b; stroke-width:2.2; rx:16; }
+      .source { fill:#eff6ff; stroke:#3b82f6; }
+      .metric { fill:#fff7ed; stroke:#f59e0b; }
+      .semantic { fill:#f5f3ff; stroke:#8b5cf6; }
+      .decision { fill:#fefce8; stroke:#ca8a04; }
+      .break { fill:#ecfdf5; stroke:#10b981; stroke-width:3; }
+      .error { fill:#fef2f2; stroke:#ef4444; }
+      .exec { fill:#f8fafc; stroke:#475569; }
+      .group { fill:#f8fafc; stroke:#cbd5e1; stroke-width:2; rx:24; }
+      .arrow { fill:none; stroke:#475569; stroke-width:3; marker-end:url(#arrow); }
+      .green-arrow { fill:none; stroke:#059669; stroke-width:4; marker-end:url(#arrowGreen); }
+      .red-arrow { fill:none; stroke:#dc2626; stroke-width:3.5; stroke-dasharray:12 9; marker-end:url(#arrowRed); }
+      .feedback { fill:none; stroke:#7c3aed; stroke-width:3; stroke-dasharray:9 8; marker-end:url(#arrowPurple); }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#475569"/></marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#059669"/></marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#dc2626"/></marker>
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#7c3aed"/></marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.12"/></filter>
+  </defs>
+
+  <rect width="1800" height="1720" fill="#ffffff"/>
+  <text x="900" y="64" text-anchor="middle" class="title">GSM 真机部署：误差传递、隔离与闭环</text>
+  <text x="900" y="102" text-anchor="middle" class="subtitle">高层关系推理可隔离部分历史度量误差；DR、深度仍通过坐标链和局部导航旁路传播</text>
+
+  <!-- input sources -->
+  <rect class="group" x="55" y="140" width="1690" height="190"/>
+  <text x="85" y="178" class="group-title">① 输入误差源</text>
+  <g filter="url(#shadow)">
+    <rect class="node source" x="90" y="205" width="365" height="92"/>
+    <text x="272" y="239" text-anchor="middle" class="node-title">RGB / 检测</text>
+    <text x="272" y="270" text-anchor="middle" class="node-body">类别、BBox、漏检、误检、动态目标</text>
+    <rect class="node source" x="505" y="205" width="365" height="92"/>
+    <text x="688" y="239" text-anchor="middle" class="node-title">双目深度</text>
+    <text x="688" y="270" text-anchor="middle" class="node-body">尺度、空洞、视差、反光、时延</text>
+    <rect class="node source" x="920" y="205" width="365" height="92"/>
+    <text x="1102" y="239" text-anchor="middle" class="node-title">IMU / ODOM → DR</text>
+    <text x="1102" y="270" text-anchor="middle" class="node-body">平移、航向、增量漂移、跳变</text>
+    <rect class="node source" x="1335" y="205" width="365" height="92"/>
+    <text x="1518" y="239" text-anchor="middle" class="node-title">标定与同步</text>
+    <text x="1518" y="270" text-anchor="middle" class="node-body">内参、外参、RGB-Depth、时间戳</text>
+  </g>
+
+  <!-- GSM construction -->
+  <rect class="group" x="55" y="370" width="1690" height="275"/>
+  <text x="85" y="408" class="group-title">② GSM 构建与高层接口</text>
+  <g filter="url(#shadow)">
+    <rect class="node metric" x="145" y="450" width="470" height="130"/>
+    <text x="380" y="487" text-anchor="middle" class="node-title">GSM 度量构建</text>
+    <text x="380" y="521" text-anchor="middle" class="node-body">检测 + 检测时深度 + DR 位姿</text>
+    <text x="380" y="550" text-anchor="middle" class="small">D / A / C：坐标与融合误差仍会写入 GSM</text>
+
+    <rect class="node semantic" x="700" y="450" width="470" height="130"/>
+    <text x="935" y="487" text-anchor="middle" class="node-title">结构化语义与相对关系</text>
+    <text x="935" y="521" text-anchor="middle" class="node-body">room_id、拓扑、邻接、目标类别、相对方位</text>
+    <text x="935" y="550" text-anchor="middle" class="small">高层回答“去哪里 / 搜什么”</text>
+
+    <rect class="node break" x="1255" y="450" width="405" height="130"/>
+    <text x="1457" y="487" text-anchor="middle" class="node-title">误差断点 A：关系符号化</text>
+    <text x="1457" y="521" text-anchor="middle" class="node-body">M：未跨越边界的小度量误差被屏蔽</text>
+    <text x="1457" y="550" text-anchor="middle" class="small">边界附近会转为 T：房间/方向/状态翻转</text>
+  </g>
+  <path class="arrow" d="M900 330V370H380V450"/>
+  <text x="405" y="390" class="edge-label">检测 / 深度 / DR / 标定输入</text>
+  <path class="arrow" d="M615 515H700"/>
+  <path class="green-arrow" d="M1170 515H1255"/>
+
+  <!-- high-level reasoning -->
+  <rect class="group" x="55" y="690" width="1690" height="335"/>
+  <text x="85" y="728" class="group-title">③ RoboBrain 高层推理与搜索分支</text>
+  <g filter="url(#shadow)">
+    <rect class="node semantic" x="105" y="770" width="390" height="120"/>
+    <text x="300" y="808" text-anchor="middle" class="node-title">RoboBrain 高层推理</text>
+    <text x="300" y="842" text-anchor="middle" class="node-body">目标房间、搜索区域、局部导航意图</text>
+    <text x="300" y="870" text-anchor="middle" class="small">不直接消费原始 DR 数值或全深度图</text>
+
+    <polygon class="node decision" points="660,765 810,830 660,895 510,830"/>
+    <text x="660" y="821" text-anchor="middle" class="node-title">当前 room_id</text>
+    <text x="660" y="849" text-anchor="middle" class="node-body">是目标房间？</text>
+
+    <rect class="node exec" x="555" y="925" width="310" height="70"/>
+    <text x="710" y="968" text-anchor="middle" class="node-title">VLN 房间导航</text>
+
+    <polygon class="node decision" points="1060,765 1210,830 1060,895 910,830"/>
+    <text x="1060" y="821" text-anchor="middle" class="node-title">seen_2d 且</text>
+    <text x="1060" y="849" text-anchor="middle" class="node-body">localized_3d？</text>
+
+    <rect class="node error" x="1290" y="770" width="355" height="120"/>
+    <text x="1467" y="808" text-anchor="middle" class="node-title">头部 / 机身旋转搜索</text>
+    <text x="1467" y="842" text-anchor="middle" class="node-body">漏检、无效深度会触发搜索</text>
+    <text x="1467" y="870" text-anchor="middle" class="small">FB + C：旋转误差改变下一轮视角与 DR</text>
+
+    <rect class="node metric" x="905" y="925" width="420" height="70"/>
+    <text x="1115" y="955" text-anchor="middle" class="node-title">检测坐标接口</text>
+    <text x="1115" y="980" text-anchor="middle" class="small">bbox_px / xyz_base / xyz_map 决定误差是否隔离</text>
+  </g>
+  <path class="arrow" d="M495 830H510"/>
+  <path class="arrow" d="M660 895V925"/>
+  <text x="675" y="915" class="edge-label">否</text>
+  <path class="arrow" d="M810 830H910"/>
+  <text x="855" y="814" class="edge-label">是</text>
+  <path class="arrow" d="M1210 830H1290"/>
+  <text x="1243" y="814" class="edge-label">否</text>
+  <path class="arrow" d="M1060 895V925"/>
+  <text x="1076" y="915" class="edge-label">是</text>
+  <path class="green-arrow" d="M1457 580V665H300V770"/>
+
+  <!-- local loop -->
+  <rect class="group" x="55" y="1070" width="1690" height="410"/>
+  <text x="85" y="1108" class="group-title">④ 当前帧短程目标、局部导航与末端验收</text>
+  <g filter="url(#shadow)">
+    <rect class="node break" x="120" y="1160" width="440" height="125"/>
+    <text x="340" y="1198" text-anchor="middle" class="node-title">误差断点 B：短程目标重置</text>
+    <text x="340" y="1232" text-anchor="middle" class="node-body">当前帧机体系目标 + 时间戳 + 短 TTL</text>
+    <text x="340" y="1261" text-anchor="middle" class="small">M + FB：丢弃旧点，缩短历史误差作用时域</text>
+
+    <rect class="node exec" x="680" y="1160" width="440" height="125"/>
+    <text x="900" y="1198" text-anchor="middle" class="node-title">局部导航、避障与控制</text>
+    <text x="900" y="1232" text-anchor="middle" class="node-body">当前深度、DR、局部规划、MCU 执行</text>
+    <text x="900" y="1261" text-anchor="middle" class="small">目标跟踪、轮滑、延迟、停止阈值仍保留</text>
+
+    <rect class="node break" x="1240" y="1160" width="440" height="125"/>
+    <text x="1460" y="1198" text-anchor="middle" class="node-title">末端视觉重检测</text>
+    <text x="1460" y="1232" text-anchor="middle" class="node-body">当前帧目标确认 + 当前相对距离复核</text>
+    <text x="1460" y="1261" text-anchor="middle" class="small">区分“导航栈到点”与“任务真正完成”</text>
+
+    <rect class="node exec" x="680" y="1350" width="440" height="90"/>
+    <text x="900" y="1386" text-anchor="middle" class="node-title">物理到达 / 系统验收结果</text>
+    <text x="900" y="1417" text-anchor="middle" class="node-body">终点误差、提前停止、漏停、任务成功率</text>
+  </g>
+  <path class="arrow" d="M710 995V1118H340V1160"/>
+  <path class="arrow" d="M1115 995V1135H500V1200"/>
+  <path class="green-arrow" d="M560 1222H680"/>
+  <path class="arrow" d="M1120 1222H1240"/>
+  <path class="arrow" d="M1460 1285V1325H900V1350"/>
+
+  <!-- bypasses -->
+  <path class="red-arrow" d="M688 297V345H1710V1045H760V1160"/>
+  <text x="1590" y="1035" text-anchor="end" class="edge-label" fill="#dc2626">深度旁路：D / A / T</text>
+  <path class="red-arrow" d="M1102 297V360H1675V1020H1040V1160"/>
+  <text x="1470" y="1010" text-anchor="end" class="edge-label" fill="#dc2626">DR 旁路：D / C / FB</text>
+  <path class="feedback" d="M900 1440V1525H70V515H145"/>
+  <text x="90" y="1510" class="edge-label" fill="#7c3aed">执行后重新感知与规划：FB（可能纠错，也可能自强化）</text>
+
+  <!-- legend -->
+  <rect x="55" y="1535" width="1690" height="135" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="85" y="1573" class="group-title">图例与核心结论</text>
+  <line x1="90" y1="1610" x2="150" y2="1610" class="green-arrow"/><text x="170" y="1617" class="node-body">绿色：误差隔离 / 旧目标重置</text>
+  <line x1="510" y1="1610" x2="570" y2="1610" class="red-arrow"/><text x="590" y="1617" class="node-body">红色虚线：DR、深度仍进入局部导航</text>
+  <line x1="1080" y1="1610" x2="1140" y2="1610" class="feedback"/><text x="1160" y="1617" class="node-body">紫色虚线：闭环反馈</text>
+  <text x="85" y="1652" class="node-body">D 直接传递　A 放大　T 类型转换　C 累积　M 掩蔽/截断　FB 闭环反馈</text>
+</svg>
